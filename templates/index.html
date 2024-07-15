@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Weather Dashboard</h1>
-    <form id="weatherForm">
-        <input type="text" id="city" name="city" placeholder="Enter city name">
-        <button type="submit">Get Weather</button>
-    </form>
-    <div id="weatherResult"></div>
+    <div>
+        <h1>Basic Weather App</h1>
+        <form id="weatherForm">
+            <input type="text" id="city" name="city" placeholder="Enter city name">
+            <button type="submit">Get Weather</button>
+        </form>
+        <div id="weatherResult"></div>
+    </div>
     <script>
         document.getElementById('weatherForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -29,6 +32,10 @@
                             <img src="http://openweathermap.org/img/wn/${data.icon}.png" alt="Weather icon">
                         `;
                     }
+                })
+                .catch(error => {
+                    document.getElementById('weatherResult').innerHTML = `<p>Failed to fetch weather data</p>`;
+                    console.error('Error:', error);
                 });
         });
     </script>
