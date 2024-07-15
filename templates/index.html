@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <h1>Weather Dashboard</h1>
+    <form id="weatherForm">
+        <input type="text" id="city" name="city" placeholder="Enter city name">
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="weatherResult"></div>
+    <script>
+        document.getElementById('weatherForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const city = document.getElementById('city').value;
+            fetch(`/weather?city=${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('weatherResult').innerHTML = `<p>${data.error}</p>`;
+                    } else {
+                        document.getElementById('weatherResult').innerHTML = `
+                            <h2>${data.city}</h2>
+                            <p>Temperature: ${data.temperature} °C</p>
+                            <p>Description: ${data.description}</p>
+                            <img src="http://openweathermap.org/img/wn/${data.icon}.png" alt="Weather icon">
+                        `;
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
